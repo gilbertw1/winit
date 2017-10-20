@@ -58,7 +58,7 @@ pub enum WindowEvent {
     /// `position` is (x,y) coords in pixels relative to the top-left corner of the window. Because the range of this
     /// data is limited by the display area and it may have been transformed by the OS to implement effects such as
     /// mouse acceleration, it should not be used to implement non-cursor-like interactions such as 3D camera control.
-    MouseMoved { device_id: DeviceId, position: (f64, f64) },
+    MouseMoved { device_id: DeviceId, position: (f64, f64), modifiers: ModifiersState },
 
     /// The cursor has entered the window.
     MouseEntered { device_id: DeviceId },
@@ -67,10 +67,11 @@ pub enum WindowEvent {
     MouseLeft { device_id: DeviceId },
 
     /// A mouse wheel movement or touchpad scroll occurred.
-    MouseWheel { device_id: DeviceId, delta: MouseScrollDelta, phase: TouchPhase },
+    MouseWheel { device_id: DeviceId, delta: MouseScrollDelta, phase: TouchPhase, modifiers: ModifiersState },
 
     /// An mouse button press has been received.
-    MouseInput { device_id: DeviceId, state: ElementState, button: MouseButton },
+    MouseInput { device_id: DeviceId, state: ElementState, button: MouseButton, modifiers: ModifiersState },
+  
 
     /// Touchpad pressure event.
     ///

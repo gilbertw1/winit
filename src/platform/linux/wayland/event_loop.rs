@@ -361,7 +361,8 @@ impl wl_pointer::Handler for InputHandler {
                 guard.send_event(Event::MouseEntered { device_id: ::DeviceId(::platform::DeviceId::Wayland(DeviceId)) },
                                  make_wid(window));
                 guard.send_event(Event::MouseMoved { device_id: ::DeviceId(::platform::DeviceId::Wayland(DeviceId)),
-                                                     position: (w, h) },
+                                                     position: (w, h),
+                                                     modifiers: ModifiersState::default() },
                                  make_wid(window));
                 break;
             }
@@ -394,7 +395,8 @@ impl wl_pointer::Handler for InputHandler {
         if let Some(ref window) = self.mouse_focus {
             let (w,h) = self.mouse_location;
             self.callback.lock().unwrap().send_event(Event::MouseMoved { device_id: ::DeviceId(::platform::DeviceId::Wayland(DeviceId)),
-                                                                         position: (w, h) }, make_wid(window));
+                                                                         position: (w, h),
+                                                                         modifiers: ModifiersState::default() }, make_wid(window));
         }
     }
 
@@ -423,6 +425,7 @@ impl wl_pointer::Handler for InputHandler {
                     device_id: ::DeviceId(::platform::DeviceId::Wayland(DeviceId)),
                     state: state,
                     button: button,
+                    modifiers: ModifiersState::default(),
                 },
                 make_wid(window)
             );
@@ -462,6 +465,7 @@ impl wl_pointer::Handler for InputHandler {
                         device_id: ::DeviceId(::platform::DeviceId::Wayland(DeviceId)),
                         delta: MouseScrollDelta::LineDelta(x as f32, y as f32),
                         phase: self.axis_state,
+                        modifiers: ModifiersState::default(),
                     },
                     make_wid(window)
                 );
@@ -471,6 +475,7 @@ impl wl_pointer::Handler for InputHandler {
                         device_id: ::DeviceId(::platform::DeviceId::Wayland(DeviceId)),
                         delta: MouseScrollDelta::PixelDelta(x as f32, y as f32),
                         phase: self.axis_state,
+                        modifiers: ModifiersState::default(),
                     },
                     make_wid(window)
                 );

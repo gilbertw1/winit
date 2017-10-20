@@ -480,7 +480,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
 
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseWheel { device_id: DEVICE_ID, delta: LineDelta(0.0, value), phase: TouchPhase::Moved },
+              event: MouseWheel { device_id: DEVICE_ID, delta: LineDelta(0.0, value), phase: TouchPhase::Moved, modifiers: event::get_key_mods() },
             });
 
             0
@@ -532,7 +532,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             use events::ElementState::Pressed;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Left }
+                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Left, modifiers: event::get_key_mods() }
             });
             0
         },
@@ -543,7 +543,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             use events::ElementState::Released;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Left }
+                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Left, modifiers: event::get_key_mods() }
             });
             0
         },
@@ -554,7 +554,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             use events::ElementState::Pressed;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Right }
+                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Right, modifiers: event::get_key_mods() }
             });
             0
         },
@@ -565,7 +565,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             use events::ElementState::Released;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Right }
+                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Right, modifiers: event::get_key_mods() }
             });
             0
         },
@@ -576,7 +576,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             use events::ElementState::Pressed;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Middle }
+                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Middle, modifiers: event::get_key_mods() }
             });
             0
         },
@@ -587,7 +587,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             use events::ElementState::Released;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Middle }
+                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Middle, modifiers: event::get_key_mods() }
             });
             0
         },
@@ -599,7 +599,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             let xbutton = winapi::HIWORD(wparam as winapi::DWORD) as winapi::c_int; // waiting on PR for winapi to add GET_XBUTTON_WPARAM
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Other(xbutton as u8) }
+                event: MouseInput { device_id: DEVICE_ID, state: Pressed, button: Other(xbutton as u8), modifiers: event::get_key_mods() }
             });
             0
         },
@@ -611,7 +611,7 @@ pub unsafe extern "system" fn callback(window: winapi::HWND, msg: winapi::UINT,
             let xbutton = winapi::HIWORD(wparam as winapi::DWORD) as winapi::c_int;
             send_event(Event::WindowEvent {
                 window_id: SuperWindowId(WindowId(window)),
-                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Other(xbutton as u8) }
+                event: MouseInput { device_id: DEVICE_ID, state: Released, button: Other(xbutton as u8), modifiers: event::get_key_mods() }
             });
             0
         },

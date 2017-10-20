@@ -434,12 +434,12 @@ impl EventsLoop {
                 event
             },
 
-            appkit::NSLeftMouseDown => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Pressed, button: MouseButton::Left })) },
-            appkit::NSLeftMouseUp => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Released, button: MouseButton::Left })) },
-            appkit::NSRightMouseDown => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Pressed, button: MouseButton::Right })) },
-            appkit::NSRightMouseUp => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Released, button: MouseButton::Right })) },
-            appkit::NSOtherMouseDown => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Pressed, button: MouseButton::Middle })) },
-            appkit::NSOtherMouseUp => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Released, button: MouseButton::Middle })) },
+            appkit::NSLeftMouseDown => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Pressed, button: MouseButton::Left, modifiers: event_mods(ns_event) })) },
+            appkit::NSLeftMouseUp => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Released, button: MouseButton::Left, modifiers: event_mods(ns_event) })) },
+            appkit::NSRightMouseDown => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Pressed, button: MouseButton::Right, modifiers: event_mods(ns_event) })) },
+            appkit::NSRightMouseUp => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Released, button: MouseButton::Right, modifiers: event_mods(ns_event) })) },
+            appkit::NSOtherMouseDown => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Pressed, button: MouseButton::Middle, modifiers: event_mods(ns_event) })) },
+            appkit::NSOtherMouseUp => { Some(into_event(WindowEvent::MouseInput { device_id: DEVICE_ID, state: ElementState::Released, button: MouseButton::Middle, modifiers: event_mods(ns_event) })) },
 
             appkit::NSMouseEntered => { Some(into_event(WindowEvent::MouseEntered { device_id: DEVICE_ID })) },
             appkit::NSMouseExited => { Some(into_event(WindowEvent::MouseLeft { device_id: DEVICE_ID })) },
@@ -473,7 +473,7 @@ impl EventsLoop {
                 {
                     let x = (scale_factor * view_point.x as f32) as f64;
                     let y = (scale_factor * (view_rect.size.height - view_point.y) as f32) as f64;
-                    let window_event = WindowEvent::MouseMoved { device_id: DEVICE_ID, position: (x, y) };
+                    let window_event = WindowEvent::MouseMoved { device_id: DEVICE_ID, position: (x, y), modifiers: event_mods(ns_event) };
                     let event = Event::WindowEvent { window_id: ::WindowId(window.id()), event: window_event };
                     events.push_back(event);
                 }
@@ -518,7 +518,7 @@ impl EventsLoop {
                     appkit::NSEventPhaseEnded => TouchPhase::Ended,
                     _ => TouchPhase::Moved,
                 };
-                let window_event = WindowEvent::MouseWheel { device_id: DEVICE_ID, delta: delta, phase: phase };
+                let window_event = WindowEvent::MouseWheel { device_id: DEVICE_ID, delta: delta, phase: phase, modifiers: event_mods(ns_event) };
                 Some(into_event(window_event))
             },
 
